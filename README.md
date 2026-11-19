@@ -193,3 +193,7 @@ No Windows: a forma com `cmd /c` e `MSYS_NO_PATHCONV=1` é **a confirmar**. O do
 ## 12. Prompt de instalação para o Claude do trabalho
 
 Em `docs/prompt-instalacao.md` está o prompt revisado para outro Claude configurar o ambiente com aprovação do dono, bloco por bloco. As regras específicas do projeto da empresa **não** estão no repositório: o dono deve fornecê-las na própria conta empresarial.
+
+## 13. Estudos
+
+- `docs/analise-portfolio-fojcik.md`: como um portfólio com 3D e muitas animações foi feito (Astro, Three.js com WebGPU, Lenis, Anime.js), três efeitos explicados com código próprio e como aproveitar para um catálogo de joias leve no celular.
