@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Claude Code com a conta EMPRESARIAL, isolada da conta pessoal.
+# Login, histórico, memória e configurações ficam em ~/.claude-work (a conta pessoal usa ~/.claude).
+# As skills são compartilhadas: ~/.claude-work/skills aponta para ~/.claude/skills.
+export CLAUDE_CONFIG_DIR="$HOME/.claude-work"
+exec "$HOME/.local/bin/claude" "$@"
