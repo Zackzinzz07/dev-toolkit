@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Mostra o estado de todas as contas registradas: login (Claude) e cota (agy).
 set -uo pipefail
+
+# Python: no Windows "python3" costuma ser só um atalho da Microsoft Store
+if python3 -c '' >/dev/null 2>&1; then PY=python3; else PY=python; fi
 REG="${XDG_CONFIG_HOME:-$HOME/.config}/orquestrador/contas.json"
 [ -f "$REG" ] || { echo "Sem contas registradas. Use: nova-conta claude|agy NOME"; exit 1; }
-python3 -I - "$REG" <<'PY'
+"$PY" -I - "$REG" <<'PY'
 import json, subprocess, sys, os
 for c in json.load(open(sys.argv[1]))["contas"]:
     nome, tipo, cmd = c["nome"], c["tipo"], c["comando"]
@@ -19,7 +22,7 @@ for c in json.load(open(sys.argv[1]))["contas"]:
         print(f'{nome:14} claude {c["escopo"]:9} {"logada" if logado else "SEM LOGIN"}{pausa}')
     else:
         try:
-            r = subprocess.run([cmd, "-p", "/usage", "--model", "gemini-3.8-flash-low", "--mode", "plan", "--print-timeout", "40s"],
+            r = subprocess.run([cmd, "-p", "/usage", "--model", "gemini-4-hydrogen-low", "--mode", "plan", "--print-timeout", "40s"],
                                capture_output=True, text=True, timeout=70, stdin=subprocess.DEVNULL)
             linhas = [l.split("\t") for l in r.stdout.splitlines() if l.count("\t") == 3]
             partes = [f'{g.split()[0]} {n.split()[0]}={p}' for g, n, p, _ in linhas if "Limit Remaining" in n]

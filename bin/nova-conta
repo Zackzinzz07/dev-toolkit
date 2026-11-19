@@ -5,12 +5,23 @@
 #   nova-conta lista                                 mostra as contas registradas
 # Depois de criar, rode o comando uma vez e faça o login daquela conta.
 set -euo pipefail
+
+# Python: no Windows "python3" costuma ser só um atalho da Microsoft Store
+if python3 -c '' >/dev/null 2>&1; then PY=python3; else PY=python; fi
+
+# Link de pasta: symlink no Linux, junction no Windows (Git Bash), sem precisar de admin
+liga() {  # alvo link
+  case "$(uname -s)" in
+    MINGW*|MSYS*) cmd //c mklink //J "$(cygpath -w "$2")" "$(cygpath -w "$1")" >/dev/null ;;
+    *) ln -s "$1" "$2" ;;
+  esac
+}
 REG="${XDG_CONFIG_HOME:-$HOME/.config}/orquestrador/contas.json"
 mkdir -p "$(dirname "$REG")" "$HOME/.local/bin"
 [ -f "$REG" ] || echo '{"contas": []}' > "$REG"
 
 registra() {  # nome tipo comando escopo config
-  python3 -I - "$REG" "$@" <<'PY'
+  "$PY" -I - "$REG" "$@" <<'PY'
 import json, sys
 reg, nome, tipo, comando, escopo, config = sys.argv[1:7]
 d = json.load(open(reg))
@@ -22,7 +33,7 @@ PY
 
 tipo="${1:-}"; nome="${2:-}"; escopo="${3:-pessoal}"
 if [ "$tipo" = "lista" ]; then
-  python3 -I - "$REG" <<'PY'
+  "$PY" -I - "$REG" <<'PY'
 import json, sys
 for c in json.load(open(sys.argv[1]))["contas"]:
     print(f'{c["nome"]:14} {c["tipo"]:7} {c["escopo"]:9} {"ativa" if c.get("ativa", True) else "pausada":8} {c["comando"]}')
@@ -35,15 +46,16 @@ case "$tipo" in
   claude)
     pasta="$HOME/.claude-$nome"; cmd="claude-$nome"
     mkdir -p "$pasta"; chmod 700 "$pasta"
-    [ -e "$pasta/skills" ] || ln -s "$HOME/.claude/skills" "$pasta/skills"
+    [ -e "$pasta/skills" ] || liga "$HOME/.claude/skills" "$pasta/skills"
     cat > "$HOME/.local/bin/$cmd" <<W
 #!/usr/bin/env bash
 # Claude Code da conta "$nome" ($escopo), isolada. Login e histórico em $pasta
 export CLAUDE_CONFIG_DIR="$pasta"
-exec "\$HOME/.local/bin/claude" "\$@"
+exec claude "\$@"
 W
     ;;
   agy)
+    case "$(uname -s)" in MINGW*|MSYS*) echo "agy isolado (outra conta) ainda não é suportado no Windows: o isolamento usa HOME e D-Bus do Linux."; exit 1 ;; esac
     pasta="$HOME/.agy-profiles/$nome"; cmd="agy-$nome"
     mkdir -p "$pasta/run" "$pasta/.gemini/config"; chmod 700 "$pasta" "$pasta/run"
     [ -e "$pasta/.gemini/config/skills" ] || ln -s "$HOME/.gemini/config/skills" "$pasta/.gemini/config/skills"
