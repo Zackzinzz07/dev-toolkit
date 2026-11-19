@@ -14,4 +14,4 @@ NOME="$(basename "$ARQ" .txt)"
 cd "$SAIDA"
 "$DIR/gmaps-scraper" -input "$ARQ" -results "$SAIDA/$NOME.json" -json \
   -depth 1 -c 1 -lang pt-BR -exit-on-inactivity 2m
-python3 "$DIR/para-landing.py" "$SAIDA/$NOME.json"
+python3 -I "$DIR/para-landing.py" "$SAIDA/$NOME.json"
