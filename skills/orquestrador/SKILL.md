@@ -50,10 +50,12 @@ O `agy` não lembra a conversa: o prompt precisa ser autocontido (objetivo, arqu
 - Pesquisa em massa, classificação, texto: `gemini-3.8-flash-high` ou `-medium`.
 - Auditoria e escrita de qualidade: `gemini-4-argon-high`.
 - Manutenção rápida, scripts, testes: `gemini-4-hydrogen-high` (`medium` se a latência importar).
-- Debug difícil de vários arquivos: `gemini-4-hydrogen-xhigh`.
-- Arquitetura de fronteira (só Ultra): `gemini-4-carbon-high`.
+- Código complexo, feature grande ou tarefa longa com ferramentas, quando o Hydrogen não resolveu: `gemini-4-neon-high` (`xhigh` para raciocínio mais profundo em várias etapas). O Neon saiu em 18/11/2026 e fica entre o Hydrogen (rápido) e o Carbon (topo). Contexto de 1 milhão de tokens; US$ 3 por milhão de tokens de entrada e US$ 15 de saída (preço do anúncio do Google, confira antes de planejar custo).
+- Debug difícil de vários arquivos: `gemini-4-hydrogen-xhigh`; se falhar, `gemini-4-neon-xhigh`.
+- Arquitetura de fronteira: `gemini-4-neon-xhigh`. O `gemini-4-carbon-*` só existe em plano Ultra e nem toda conta tem: use só se `agy models` listar.
 - Segunda opinião e revisão de verdade: `claude-sonnet-5-5-medium` ou `claude-opus-5-5-medium`.
-- `gemini-pro-orchestrator-*` não aceita ajuste de effort.
+- `gemini-pro-orchestrator-*` (`-neon` e `-g1-pro`) não aceita ajuste de effort.
+- O Argon continua listado no `agy models`. Uma matéria diz que o Neon o substitui, mas o Google não afirma isso. Use o Argon enquanto ele aparecer e funcionar.
 
 ## 4. Escalonar e desescalonar
 Suba na ordem e pare no primeiro passo que resolver:
@@ -61,6 +63,7 @@ Suba na ordem e pare no primeiro passo que resolver:
 2. A mesma verificação falhou duas vezes com contexto completo ("confiante e errado"): **suba o modelo**, começando um nível de effort abaixo.
 3. Opus `high` falhou com bom contexto: `xhigh` uma vez. `max` só como último recurso.
 4. Em lote verificável: rode tudo em `low` e repita em `high` só o que falhou.
+5. No `agy`, suba nesta ordem: `hydrogen-high`, `hydrogen-xhigh`, `neon-high`, `neon-xhigh`. O Neon custa mais que o Hydrogen: só suba quando a verificação falhar.
 
 Desça quando: o trabalho virou rotina (3 ou mais turnos certos no Opus: `/compact` e vá para Sonnet); a tarefa terminou mas demorou demais (um nível de effort a menos); leitura de arquivo grande (delegue ao Haiku).
 

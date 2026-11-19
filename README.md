@@ -2,11 +2,11 @@
 
 ## 1. O que é e para quem
 
-Repositório privado (`git@github.com:Zackzinzz07/dev-toolkit.git`) com ferramentas de trabalho para usar em qualquer computador. Reúne as skills do Antigravity (`agy`) e do Claude Code, o scraper do Google Maps para montar landing pages e os comandos para gerenciar várias contas isoladas.
+Repositório público (`https://github.com/Zackzinzz07/dev-toolkit`) com ferramentas de trabalho para usar em qualquer computador. Reúne as skills do Antigravity (`agy`) e do Claude Code, o scraper do Google Maps para montar landing pages e os comandos para gerenciar várias contas isoladas.
 
-- **Dono:** Isac Salatiel (estagiário de tecnologia, Brasília).
-- **Ambientes do dono:** computador de casa (Ubuntu, Linux) e computador do trabalho (Windows 11, com Git Bash e PowerShell).
-- **Público deste documento:** o Claude do computador do trabalho e o próprio dono. O Claude deve ler e entender tudo antes de agir e só executar a instalação com aprovação do dono.
+- **Projeto:** kit de ferramentas de desenvolvimento reutilizável: skills, orquestrador de agentes, scripts de contas e utilitários.
+- **Ambientes testados:** Linux (Ubuntu) e Windows 11 (Git Bash e PowerShell).
+- **Público deste documento:** o Claude de qualquer computador onde o kit for instalado e o dono do projeto. O Claude deve ler e entender tudo antes de agir e só executar a instalação com aprovação do dono.
 
 ---
 
@@ -41,7 +41,7 @@ Repositório privado (`git@github.com:Zackzinzz07/dev-toolkit.git`) com ferramen
 
 ### Passo 1: Clonar o repositório e entrar na pasta
 ```bash
-git clone git@github.com:Zackzinzz07/dev-toolkit.git
+git clone https://github.com/Zackzinzz07/dev-toolkit.git
 cd dev-toolkit
 ```
 - **Verificação:** `ls` deve mostrar `install.sh`, `skills/`, `ferramentas/maps/` e `bin/`.
@@ -101,7 +101,7 @@ git pull
 ## 5. Como o orquestrador escolhe conta, modelo e effort
 
 - **Conta:** respeita o escopo (empresa só em conta de empresa); usa só contas ativas e logadas; entre as elegíveis, a de maior cota livre, dividindo o trabalho entre elas. Semana abaixo de 10%: a conta fica fora. Janela de 5 horas abaixo de 20%: menos paralelismo. Se todas as do escopo esgotarem, para e avisa o dono.
-- **Modelo:** modelo é capacidade; effort é o quanto ele trabalha. Haiku para ler e buscar, Sonnet como padrão, Opus para problema ambíguo. No agy: flash para pesquisa em volume, argon para escrita e auditoria, hydrogen para scripts e testes, Claude para revisão. Veja o `skills/orquestrador/SKILL.md` para a tabela completa.
+- **Modelo:** modelo é capacidade; effort é o quanto ele trabalha. Haiku para ler e buscar, Sonnet como padrão, Opus para problema ambíguo. No agy: flash para pesquisa em volume, neon (lançado em 18/11/2026) para código complexo e tarefas longas com ferramentas, argon para escrita e auditoria, hydrogen para scripts e testes, Claude para revisão. O `carbon` só existe em plano Ultra: use apenas se `agy models` listar. Veja o `skills/orquestrador/SKILL.md` para a tabela completa.
 - **Effort:** `medium` por padrão. Sobe um nível se pulou arquivo ou teste; sobe de modelo se errou com confiança tendo todo o contexto; desce quando o trabalho vira rotina. Nunca `max` como padrão.
 - **Atenção:** a regra do PC do trabalho de usar só `gemini-4-hydrogen-*` no agy pode conflitar com isso. O dono decide se vale só lá ou em todos.
 
@@ -133,7 +133,7 @@ git pull
 ## 8. O que ainda precisa de login ou ação manual do dono
 
 - **Aprovar a instalação:** autorizar o Claude do computador do trabalho a rodar os comandos do `./install.sh`.
-- **Acesso SSH ao GitHub:** estar autenticado com acesso à conta `Zackzinzz07` para clonar `git@github.com:Zackzinzz07/dev-toolkit.git` (passos de configuração da chave SSH: a confirmar).
+- **Acesso ao GitHub:** o clone por HTTPS não precisa de login, porque o repositório é público. Só quem for enviar alterações (`git push`) precisa estar autenticado como dono do repositório.
 - **Login nas contas do Claude Code e do Antigravity (`agy`):** autenticar manualmente cada conta isolada criada com `nova-conta` e a conta empresarial em `claude-work`, conferindo depois com `contas-status` (fluxo exato de login de cada CLI: a confirmar).
 - **Login no Google Chrome para o Google Flow:** deixar a conta do dono já logada no Chrome antes de usar a skill `google-flow`.
 - **Demais ações manuais pendentes:** a confirmar.
