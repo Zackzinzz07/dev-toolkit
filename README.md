@@ -17,7 +17,7 @@ nova-conta agy outra pessoal     # adiciona uma conta do Antigravity
 Atualizar depois: `git pull`. As skills usam links, então já ficam atualizadas.
 
 ## O que tem aqui
-- `skills/`: 77 skills (Django, front-end, marketing, SEO, privacidade, Git e trabalho em equipe).
+- `skills/`: 78 skills (Django, front-end, marketing, SEO, privacidade, Git e trabalho em equipe).
   Elas ficam em pastas locais (`~/.gemini/config/skills`, `~/.claude/skills`) e não acompanham a conta, por isso o install.
 - `ferramentas/maps/`: `buscar-lojas.sh "Loja Cidade"` busca dados públicos de uma loja no Google Maps e
   `para-landing.py` converte nos campos da landing page (nome, endereço, CEP, telefone, site, mapa, horário, fotos).
