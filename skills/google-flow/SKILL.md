@@ -6,7 +6,9 @@ description: Use para gerar vídeos no Google Flow (flow.google.com) cena por ce
 # Google Flow, operado por agente
 
 ## Antes de começar
-- Use **somente** o servidor de navegador `flow-browser` (perfil dedicado, restrito a flow.google.com e ao login do Google). Nunca use o Chrome pessoal do usuário.
+- Use **somente** o servidor `flow-chrome`. Ele controla o **Chrome do usuário**, já logado, mas está travado por endereço: só alcança `flow.google.com`, `labs.google`, o login do Google e os arquivos de apoio do Google. O resto do navegador (WhatsApp, Gmail, GitHub, bancos) está bloqueado.
+- O Chrome precisa estar aberto e com a depuração remota permitida (`chrome://inspect/#remote-debugging`). O Chrome mostra um aviso de permissão a cada conexão: **o usuário aceita**, você não.
+- Trabalhe **só numa aba do Flow**. Não abra, leia nem mexa em outras abas. Se um endereço for bloqueado, **não tente contornar**: pare e avise.
 - Entre na conta certa. O menu da conta (avatar, canto superior direito) mostra o e-mail e os **créditos**. Se o login pedir senha ou código, **pare e peça ao usuário**; nunca digite senha nem tente contornar.
 - Confira os créditos antes de gerar. Cada segundo de vídeo custa cerca de 3 créditos (4 s = 12, 6 s = 18, 8 s = 24, 10 s = 30).
 - **Teto de gasto: pergunte antes de passar de 150 créditos numa sessão.** Não compre plano, upgrade nem créditos.
@@ -22,11 +24,11 @@ description: Use para gerar vídeos no Google Flow (flow.google.com) cena por ce
 7. Assista a pelo menos um quadro do resultado (captura de tela ou frame). Se o herói ou o cenário mudou, refaça a cena.
 
 ## Baixar e entregar
-- **Baixar mídia**: `720p Tamanho original` (MP4 com som) ou `270p GIF`. O arquivo cai na pasta de downloads do navegador do agente.
+- **Baixar mídia**: `720p Tamanho original` (MP4 com som) ou `270p GIF`. O arquivo cai na pasta de downloads do Chrome do usuário (`~/Transferências` neste PC).
 - Confira com `ffprobe` a duração, a resolução e se tem áudio. Extraia um quadro do fim com `ffmpeg` e olhe.
 - Enviar o arquivo a uma pessoa é decisão do usuário: só envie se ele pediu e disse para quem.
 
 ## Cuidados
-- Um único navegador por vez: o perfil não pode ser aberto por dois agentes juntos.
+- Um agente por vez no Flow: dois agentes mexendo na mesma aba se atrapalham.
 - Cada tentativa gasta créditos. Antes de refazer, diga por que a anterior falhou.
 - Regras de conteúdo do Flow: se uma cena for recusada, reescreva sem tentar enganar o filtro e avise o usuário.
