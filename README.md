@@ -56,7 +56,7 @@ cd dev-toolkit
 ```bash
 ./install.sh maps
 ```
-- **Verificação:** `ls -la ferramentas/maps/gmaps-scraper` deve mostrar um arquivo de ~76 MB. No Windows o binário é outro: **a confirmar** (o script baixa a versão Linux).
+- **Verificação:** `ls -la ferramentas/maps/gmaps-scraper` deve mostrar um arquivo de ~76 MB. No Windows o arquivo se chama `gmaps-scraper.exe`: o script escolhe sozinho o binário do sistema (Windows, Linux ou macOS).
 
 ### Passo 4: Criar o comando da conta empresarial (`claude-work`)
 ```bash
@@ -111,8 +111,8 @@ git pull
 
 - **Aprovação prévia:** o Claude do computador do trabalho só pode instalar após aprovação do dono.
 - **Separação de dados:** conta empresarial apenas para atividades da empresa; proibido enviar dado confidencial do trabalho para conta pessoal.
-- **Sem chaves no repositório:** nunca colocar chaves de API no `dev-toolkit`, mesmo sendo um repositório privado.
-- **Google Flow:** ignorar qualquer repositório ou servidor MCP de Flow de terceiros. O Flow é operado só pelo Chrome do dono, já logado, por um conector restrito (seção 9).
+- **Sem chaves no repositório:** nunca colocar chaves de API no `dev-toolkit`, ainda mais agora que o repositório é público.
+- **Google Flow:** ignorar qualquer repositório ou servidor MCP de Flow de terceiros. O Flow é operado só pelo Chrome do dono, já logado, por um conector restrito (seção 10).
 - **Limites do scraper do Google Maps (`ferramentas/maps/`):**
   - Usar somente com lojas que já são lead.
   - Limite máximo de **15 lojas por rodada**.
