@@ -13,7 +13,7 @@ Repositório privado (`git@github.com:Zackzinzz07/dev-toolkit.git`) com ferramen
 ## 2. O que tem aqui
 
 - **`skills/` (Skills):**
-  - 79 skills para Claude Code e Antigravity (`agy`), nas áreas de Django, front-end, marketing, SEO, privacidade, Git e trabalho em equipe.
+  - 82 skills para Claude Code e Antigravity (`agy`), nas áreas de Django, front-end, marketing, SEO, privacidade, Git e trabalho em equipe.
   - Inclui as skills `orquestrador` e `google-flow`.
   - Ficam instaladas via links em pastas locais (`~/.gemini/config/skills` e `~/.claude/skills`). Elas não acompanham a conta na nuvem.
   - Cada skill vem de uma biblioteca de terceiros e mantém a licença original dentro da sua pasta.
@@ -168,8 +168,8 @@ Para uma conta isolada, rode antes `export CLAUDE_CONFIG_DIR=~/.claude-NOME` (ou
 | Skill | Origem | Licença | Situação |
 |---|---|---|---|
 | `agy-agents` | já está em `skills/agy-agents` deste repositório | própria | instalada pelo `./install.sh` |
-| `grill-me` | repositório `mattpocock/skills` (clonar, ler e copiar a pasta `grill-me` e o `LICENSE`) | MIT | a instalar; pasta exata dentro do repositório: a confirmar |
-| `scroll-craft` | `nateherkai/scroll-craft`, plugin `nateherk-design`, pasta `plugins/nateherk-design/skills/scroll-craft/` | MIT | a instalar; usa Node e, para gerar mídia, uma chave kie.ai (opcional) |
+| `grill-me` e `grilling` | `mattpocock/skills`, pasta `skills/productivity` (commit 5863806) | MIT | **instaladas** em `skills/`. O `grill-me` só chama a `grilling`, então as duas precisam estar juntas. O `grill-me` só roda quando o dono digita `/grill-me` (o modelo não o aciona sozinho); no `agy` use a `grilling` |
+| `scroll-craft` | `nateherkai/scroll-craft`, plugin `nateherk-design` (commit 75d81f7, 30/09/2026; a tag v0.3.1 **não existe**) | MIT | **instalada** em `skills/`. Diagnóstico (`node scripts/doctor.mjs`) passou no Linux; precisa de Node, ffmpeg completo e Chrome, e do `playwright-core` só para a verificação visual. **Não usar `scripts/kie.mjs` com material confidencial** |
 | `reverse-engineer-anything` | `morluto/rea` | MIT | só com necessidade real (seção 11) |
 
 Regra: clonar numa pasta nova, ler o conteúdo antes de copiar e copiar só a pasta da skill mais o `LICENSE`.
