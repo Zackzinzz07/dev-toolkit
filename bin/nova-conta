@@ -10,7 +10,7 @@ mkdir -p "$(dirname "$REG")" "$HOME/.local/bin"
 [ -f "$REG" ] || echo '{"contas": []}' > "$REG"
 
 registra() {  # nome tipo comando escopo config
-  python3 - "$REG" "$@" <<'PY'
+  python3 -I - "$REG" "$@" <<'PY'
 import json, sys
 reg, nome, tipo, comando, escopo, config = sys.argv[1:7]
 d = json.load(open(reg))
@@ -22,7 +22,7 @@ PY
 
 tipo="${1:-}"; nome="${2:-}"; escopo="${3:-pessoal}"
 if [ "$tipo" = "lista" ]; then
-  python3 - "$REG" <<'PY'
+  python3 -I - "$REG" <<'PY'
 import json, sys
 for c in json.load(open(sys.argv[1]))["contas"]:
     print(f'{c["nome"]:14} {c["tipo"]:7} {c["escopo"]:9} {"ativa" if c.get("ativa", True) else "pausada":8} {c["comando"]}')

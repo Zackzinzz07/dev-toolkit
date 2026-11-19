@@ -3,7 +3,7 @@
 set -uo pipefail
 REG="${XDG_CONFIG_HOME:-$HOME/.config}/orquestrador/contas.json"
 [ -f "$REG" ] || { echo "Sem contas registradas. Use: nova-conta claude|agy NOME"; exit 1; }
-python3 - "$REG" <<'PY'
+python3 -I - "$REG" <<'PY'
 import json, subprocess, sys, os
 for c in json.load(open(sys.argv[1]))["contas"]:
     nome, tipo, cmd = c["nome"], c["tipo"], c["comando"]
