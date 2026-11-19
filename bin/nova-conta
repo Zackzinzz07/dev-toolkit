@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Adiciona uma conta ao orquestrador (Claude Code ou agente Antigravity), isolada das outras.
+#   nova-conta claude NOME [pessoal|empresa|outro]   cria o comando claude-NOME
+#   nova-conta agy    NOME [pessoal|empresa|outro]   cria o comando agy-NOME
+#   nova-conta lista                                 mostra as contas registradas
+# Depois de criar, rode o comando uma vez e faça o login daquela conta.
+set -euo pipefail
+REG="${XDG_CONFIG_HOME:-$HOME/.config}/orquestrador/contas.json"
+mkdir -p "$(dirname "$REG")" "$HOME/.local/bin"
+[ -f "$REG" ] || echo '{"contas": []}' > "$REG"
+
+registra() {  # nome tipo comando escopo config
+  python3 - "$REG" "$@" <<'PY'
+import json, sys
+reg, nome, tipo, comando, escopo, config = sys.argv[1:7]
+d = json.load(open(reg))
+d["contas"] = [c for c in d["contas"] if c["nome"] != nome]
+d["contas"].append({"nome": nome, "tipo": tipo, "comando": comando, "escopo": escopo, "config": config, "ativa": True})
+json.dump(d, open(reg, "w"), ensure_ascii=False, indent=1)
+PY
+}
+
+tipo="${1:-}"; nome="${2:-}"; escopo="${3:-pessoal}"
+if [ "$tipo" = "lista" ]; then
+  python3 - "$REG" <<'PY'
+import json, sys
+for c in json.load(open(sys.argv[1]))["contas"]:
+    print(f'{c["nome"]:14} {c["tipo"]:7} {c["escopo"]:9} {"ativa" if c.get("ativa", True) else "pausada":8} {c["comando"]}')
+PY
+  exit 0
+fi
+[[ "$tipo" =~ ^(claude|agy)$ && "$nome" =~ ^[a-z0-9-]+$ ]] || { sed -n '2,7p' "$0"; exit 1; }
+
+case "$tipo" in
+  claude)
+    pasta="$HOME/.claude-$nome"; cmd="claude-$nome"
+    mkdir -p "$pasta"; chmod 700 "$pasta"
+    [ -e "$pasta/skills" ] || ln -s "$HOME/.claude/skills" "$pasta/skills"
+    cat > "$HOME/.local/bin/$cmd" <<W
+#!/usr/bin/env bash
+# Claude Code da conta "$nome" ($escopo), isolada. Login e histórico em $pasta
+export CLAUDE_CONFIG_DIR="$pasta"
+exec "\$HOME/.local/bin/claude" "\$@"
+W
+    ;;
+  agy)
+    pasta="$HOME/.agy-profiles/$nome"; cmd="agy-$nome"
+    mkdir -p "$pasta/run" "$pasta/.gemini/config"; chmod 700 "$pasta" "$pasta/run"
+    [ -e "$pasta/.gemini/config/skills" ] || ln -s "$HOME/.gemini/config/skills" "$pasta/.gemini/config/skills"
+    cat > "$HOME/.local/bin/$cmd" <<W
+#!/usr/bin/env bash
+# Antigravity (agy) da conta "$nome" ($escopo), isolada. Login e histórico em $pasta
+# O barramento é cortado para o agy guardar o token em arquivo e não misturar com o chaveiro do sistema.
+HOME="$pasta" XDG_RUNTIME_DIR="$pasta/run" DBUS_SESSION_BUS_ADDRESS="unix:path=$pasta/run/no-bus" \\
+exec "$HOME/.local/bin/agy" "\$@"
+W
+    ;;
+esac
+chmod +x "$HOME/.local/bin/$cmd"
+registra "$nome" "$tipo" "$cmd" "$escopo" "$pasta"
+echo "ok: comando $cmd criado e registrado ($escopo). Rode '$cmd' uma vez e entre com a conta."

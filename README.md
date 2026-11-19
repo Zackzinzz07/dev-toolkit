@@ -10,6 +10,9 @@ cd dev-toolkit
 ./install.sh            # skills no Antigravity e no Claude Code
 ./install.sh maps       # baixa o google-maps-scraper
 ./install.sh conta2     # cria o comando claude-work (conta empresarial)
+./install.sh orquestrador   # comandos nova-conta e contas-status
+nova-conta claude work empresa   # adiciona uma conta do Claude Code
+nova-conta agy outra pessoal     # adiciona uma conta do Antigravity
 ```
 Atualizar depois: `git pull`. As skills usam links, então já ficam atualizadas.
 
@@ -20,6 +23,7 @@ Atualizar depois: `git pull`. As skills usam links, então já ficam atualizadas
   `para-landing.py` converte nos campos da landing page (nome, endereço, CEP, telefone, site, mapa, horário, fotos).
   Use só com lojas que já são lead, no máximo 15 por rodada. O Google pode bloquear o IP ou a conta, e a
   Places API oficial é a alternativa segura.
+- `bin/nova-conta` e `bin/contas-status`: adicionam contas isoladas (Claude Code ou agy) e mostram login e cota de todas. A skill `orquestrador` usa esse registro, com uma ou mais contas de cada tipo.
 - `bin/claude-work`: Claude Code com a conta empresarial, isolada da pessoal (`~/.claude-work`).
 
 ## Cuidados

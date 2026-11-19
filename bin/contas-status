@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Mostra o estado de todas as contas registradas: login (Claude) e cota (agy).
+set -uo pipefail
+REG="${XDG_CONFIG_HOME:-$HOME/.config}/orquestrador/contas.json"
+[ -f "$REG" ] || { echo "Sem contas registradas. Use: nova-conta claude|agy NOME"; exit 1; }
+python3 - "$REG" <<'PY'
+import json, subprocess, sys, os
+for c in json.load(open(sys.argv[1]))["contas"]:
+    nome, tipo, cmd = c["nome"], c["tipo"], c["comando"]
+    pausa = "" if c.get("ativa", True) else " [PAUSADA]"
+    if tipo == "claude":
+        env = dict(os.environ)
+        if c.get("config"): env["CLAUDE_CONFIG_DIR"] = c["config"]
+        try:
+            r = subprocess.run(["claude", "auth", "status"], env=env, capture_output=True, text=True, timeout=40)
+            logado = '"loggedIn": true' in r.stdout
+        except Exception:
+            logado = False
+        print(f'{nome:14} claude {c["escopo"]:9} {"logada" if logado else "SEM LOGIN"}{pausa}')
+    else:
+        try:
+            r = subprocess.run([cmd, "-p", "/usage", "--model", "gemini-3.8-flash-low", "--mode", "plan", "--print-timeout", "40s"],
+                               capture_output=True, text=True, timeout=70, stdin=subprocess.DEVNULL)
+            linhas = [l.split("\t") for l in r.stdout.splitlines() if l.count("\t") == 3]
+            partes = [f'{g.split()[0]} {n.split()[0]}={p}' for g, n, p, _ in linhas if "Limit Remaining" in n]
+        except Exception:
+            partes = []
+        print(f'{nome:14} agy    {c["escopo"]:9} {" | ".join(partes) or "SEM LOGIN OU SEM RESPOSTA"}{pausa}')
+PY

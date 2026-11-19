@@ -5,6 +5,7 @@
 #   ./install.sh claude          só Claude Code
 #   ./install.sh maps            só o google-maps-scraper (baixa o binário)
 #   ./install.sh conta2          cria o comando claude-work (segunda conta do Claude Code)
+#   ./install.sh orquestrador    instala nova-conta e contas-status e cria o registro de contas
 # Usa links simbólicos: depois de um "git pull" as skills se atualizam sozinhas.
 set -euo pipefail
 AQUI="$(cd "$(dirname "$0")" && pwd)"
@@ -31,9 +32,17 @@ conta2() {
   echo "ok: comando claude-work criado. Rode 'claude-work' e entre com a conta da empresa."
 }
 
+orquestrador() {
+  mkdir -p "$HOME/.local/bin" "$HOME/.config/orquestrador"
+  for c in nova-conta contas-status; do ln -sfn "$AQUI/bin/$c" "$HOME/.local/bin/$c"; done
+  [ -f "$HOME/.config/orquestrador/contas.json" ] || echo '{"contas": []}' > "$HOME/.config/orquestrador/contas.json"
+  echo "ok: nova-conta e contas-status instalados. Adicione contas: nova-conta claude|agy NOME [pessoal|empresa]"
+}
+
 case "$alvo" in
   agy|todos)    instala "$HOME/.gemini/config/skills" ;;&
   claude|todos) instala "$HOME/.claude/skills" ;;
   maps)         "$AQUI/ferramentas/maps/instalar-scraper.sh" ;;
   conta2)       conta2 ;;
+  orquestrador) orquestrador ;;
 esac
