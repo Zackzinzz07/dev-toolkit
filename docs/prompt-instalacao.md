@@ -15,12 +15,10 @@ Você vai deixar este ambiente do Claude com as MESMAS ferramentas, skills e reg
 7. Pergunte-me qual conta é esta: pessoal ou empresarial. Isso decide se o bloco "SOMENTE conta empresarial" da seção 5 se aplica. Se eu não responder, trate como pessoal.
 
 ## 1. Skills globais (pasta ~/.claude/skills, e cópia em ~/.gemini/config/skills para o agy)
-A) Três skills próprias, que vêm como arquivos .skill: agy-agents, frontend-designer e grill-me.
-- Verifique se os três arquivos estão disponíveis nesta conversa ou nesta pasta. Se algum não estiver, PARE esta parte e me peça que eu envie. Não recrie as skills de memória e não siga sem eles. Os outros blocos continuam normalmente, com minha aprovação.
-- Com os arquivos em mãos, instale descompactando cada um em ~/.claude/skills/<nome>/:
-  - agy-agents: delega trabalho aos agentes do Antigravity (agy) pelo script scripts/agy_tool.py (run, parallel, new-agent, sync-skill, list).
-  - frontend-designer: papel de designer front-end, com piso de design, lista de recusa e verificação em render real. Encaminha sites de scroll cinematográfico ao scroll-craft.
-  - grill-me: entrevista implacável para testar um plano ou ideia, em rodadas (adaptada do mattpocock/skills).
+A) Skills que o dono já tem em outros formatos. Corrija o que o dono disse:
+- **agy-agents** é a skill `agy-worker`, que já está no repositório `dev-toolkit` (`skills/agy-worker`). Instale a partir dali, não de um arquivo `.skill`. Trate os dois nomes como a mesma skill.
+- **grill-me** vem do repositório público `mattpocock/skills` (MIT). Clone numa pasta nova, ache a pasta `grill-me` (caminho: confirmar), leia, e copie só ela mais o `LICENSE` para ~/.claude/skills/grill-me/.
+- **frontend-designer** vem de OUTRO repositório, de nome diferente. Pergunte ao dono qual é o repositório e só instale depois que ele responder. Ele relaciona o design front-end ao scroll-craft.
 
 B) Duas skills de repositórios públicos. Clone cada um numa pasta NOVA e vazia, leia o conteúdo antes de copiar e copie só a pasta da skill, mais o arquivo LICENSE:
 - scroll-craft: https://github.com/nateherkai/scroll-craft (MIT). A skill completa fica em plugins/nateherk-design/skills/scroll-craft/ (SKILL.md, engine, references, scripts, templates). Copie a pasta inteira para ~/.claude/skills/scroll-craft/. Usa Node e, para gerar mídia, uma chave kie.ai (opcional; peça a mim, nunca grave). Valide com `node ~/.claude/skills/scroll-craft/scripts/doctor.mjs`.

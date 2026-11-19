@@ -13,7 +13,7 @@ Repositório privado (`git@github.com:Zackzinzz07/dev-toolkit.git`) com ferramen
 ## 2. O que tem aqui
 
 - **`skills/` (Skills):**
-  - 78 skills para Claude Code e Antigravity (`agy`), nas áreas de Django, front-end, marketing, SEO, privacidade, Git e trabalho em equipe.
+  - 79 skills para Claude Code e Antigravity (`agy`), nas áreas de Django, front-end, marketing, SEO, privacidade, Git e trabalho em equipe.
   - Inclui as skills `orquestrador` e `google-flow`.
   - Ficam instaladas via links em pastas locais (`~/.gemini/config/skills` e `~/.claude/skills`). Elas não acompanham a conta na nuvem.
   - Cada skill vem de uma biblioteca de terceiros e mantém a licença original dentro da sua pasta.
@@ -23,6 +23,7 @@ Repositório privado (`git@github.com:Zackzinzz07/dev-toolkit.git`) com ferramen
   - Usa o `google-maps-scraper` para extrair dados públicos e montar landing pages.
   - `buscar-lojas.sh "Loja Cidade"`: busca dados públicos de uma loja no Google Maps.
   - `para-landing.py`: converte os dados encontrados nos campos da landing page (nome, endereço, CEP, telefone, site, mapa, horário, fotos).
+- **`agy-worker`:** skill para o Claude delegar código, testes e documentação ao Antigravity (`agy`), escolhendo o modelo e revisando o resultado. É a mesma skill que o prompt de instalação chama de `agy-agents`.
 - **Contas (`bin/`):**
   - `bin/nova-conta`: adiciona contas isoladas do Claude Code ou do `agy`.
   - `bin/contas-status`: mostra o status de login e a cota de todas as contas registradas.
@@ -139,7 +140,42 @@ git pull
 
 ---
 
-## 9. Flow pelo Chrome do dono (conector restrito)
+## 9. Plugins do Claude Code
+
+Plugins ficam por conta (`~/.claude` e `~/.claude-NOME`). Instalar em cada conta, com o marketplace oficial `claude-plugins-official`:
+
+| Plugin | Para que serve |
+|---|---|
+| `superpowers` | fluxos de trabalho: planejar, depurar, revisar, TDD |
+| `code-review` | revisão de código |
+| `frontend-design` | design de interface com critério estético |
+| `security-guidance` | revisão de segurança automática dos commits |
+| `claude-md-management` | manter o CLAUDE.md |
+| `skill-creator` | criar e testar skills |
+| `context7` | documentação de bibliotecas atualizada |
+| `playwright` | automação de navegador |
+| `chrome-devtools-mcp` | controle do Chrome (usado no conector do Flow, seção 10) |
+
+```bash
+for p in superpowers code-review frontend-design security-guidance claude-md-management skill-creator context7 playwright chrome-devtools-mcp; do
+  claude plugin install "$p@claude-plugins-official" --scope user
+done
+```
+Para uma conta isolada, rode antes `export CLAUDE_CONFIG_DIR=~/.claude-NOME` (ou use o comando da conta). Os plugins `figma` e `engineering` vêm da sincronização do claude.ai e aparecem sozinhos conforme a conta. Confira com `claude plugin list`. O `chrome-devtools-mcp` e o `playwright` controlam navegador: confira se a empresa permite.
+
+## 9b. Skills que vêm de outros repositórios
+
+| Skill | Origem | Licença | Situação |
+|---|---|---|---|
+| `agy-agents` (do prompt) | é o `agy-worker`, que já está em `skills/agy-worker` deste repositório | própria | instalada pelo `./install.sh` |
+| `grill-me` | repositório `mattpocock/skills` (clonar, ler e copiar a pasta `grill-me` e o `LICENSE`) | MIT | a instalar; pasta exata dentro do repositório: a confirmar |
+| `scroll-craft` | `nateherkai/scroll-craft`, plugin `nateherk-design`, pasta `plugins/nateherk-design/skills/scroll-craft/` | MIT | a instalar; usa Node e, para gerar mídia, uma chave kie.ai (opcional) |
+| `frontend-designer` | outro repositório, de nome diferente | a confirmar | **o dono precisa informar o repositório**; ele relaciona o design front-end ao `scroll-craft` |
+| `reverse-engineer-anything` | `morluto/rea` | MIT | só com necessidade real (seção 11) |
+
+Regra: clonar numa pasta nova, ler o conteúdo antes de copiar e copiar só a pasta da skill mais o `LICENSE`.
+
+## 10. Flow pelo Chrome do dono (conector restrito)
 
 Os agentes mexem no Flow usando o Chrome do dono, já logado, por um conector que só alcança `flow.google.com`, `labs.google`, o login do Google e arquivos de apoio do Google. Registrar no Linux:
 ```bash
@@ -149,11 +185,11 @@ agy mcp add flow-chrome npx -y chrome-devtools-mcp@1.11.0 --autoConnect --usageS
 ```
 No Windows: a forma com `cmd /c` e `MSYS_NO_PATHCONV=1` é **a confirmar**. O dono precisa abrir o Chrome, ativar a depuração remota em `chrome://inspect/#remote-debugging` e aceitar o aviso de permissão a cada conexão. **Ainda não foi testado** se o bloqueio de endereços vale para abas já abertas. Cada segundo de vídeo custa cerca de 3 créditos, e a skill `google-flow` manda perguntar antes de passar de 150 créditos.
 
-## 10. Ferramentas externas avaliadas (não vêm instaladas)
+## 11. Ferramentas externas avaliadas (não vêm instaladas)
 
 - **REA (`rea-agents`, repositório `morluto/rea`):** ferramenta de engenharia reversa (~190 MB, um único mantenedor, projeto de 7 meses). Veredito da pesquisa: **instalar só com cuidados e só se houver uso real**. Não tem script de instalação, mas o `setup` altera `~/.claude.json` e a configuração do agy, e o servidor tem poder de executar código. Fixar a versão 6.9.0, rodar o `--dry-run` antes, fazer backup, não usar `--yes` sem ler o plano e, de preferência, instalar em ambiente isolado. A pesquisa não leu o código-fonte nem confirmou que não há telemetria, e o número de estrelas (468 mil em 7 meses) é atípico e não foi verificado. Confirmar com a empresa se engenharia reversa é permitida.
-- **scroll-craft e grill-me:** pesquisa em andamento.
+- **scroll-craft e grill-me:** pesquisa de segurança em andamento. Já confirmado: `mattpocock/skills` tem licença MIT e commit recente; `nateherkai/scroll-craft` é MIT e tem uma única skill, `scroll-craft`.
 
-## 11. Prompt de instalação para o Claude do trabalho
+## 12. Prompt de instalação para o Claude do trabalho
 
 Em `docs/prompt-instalacao.md` está o prompt revisado para outro Claude configurar o ambiente com aprovação do dono, bloco por bloco. As regras específicas do projeto da empresa **não** estão no repositório: o dono deve fornecê-las na própria conta empresarial.
