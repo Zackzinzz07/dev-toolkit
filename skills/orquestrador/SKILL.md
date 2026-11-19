@@ -47,13 +47,14 @@ O `agy` não lembra a conversa: o prompt precisa ser autocontido (objetivo, arqu
 - Tarefa longa e autônoma (mais de 30 min): Opus `xhigh`, só se medir o ganho.
 
 **Antigravity (`agy models` mostra o que a conta tem)**
+- **Padrão: `gemini-4-hydrogen-*`.** Comece nele, no nível pelo peso da tarefa (`medium` para extração e volume, `high` para design e revisão). Os outros modelos abaixo estão liberados, mas só entram quando a tarefa pedir ou quando o Hydrogen falhar na verificação.
 - Pesquisa em massa, classificação, texto: `gemini-3.8-flash-high` ou `-medium`.
 - Auditoria e escrita de qualidade: `gemini-4-argon-high`.
 - Manutenção rápida, scripts, testes: `gemini-4-hydrogen-high` (`medium` se a latência importar).
 - Código complexo, feature grande ou tarefa longa com ferramentas, quando o Hydrogen não resolveu: `gemini-4-neon-high` (`xhigh` para raciocínio mais profundo em várias etapas). O Neon saiu em 18/11/2026 e fica entre o Hydrogen (rápido) e o Carbon (topo). Contexto de 1 milhão de tokens; US$ 3 por milhão de tokens de entrada e US$ 15 de saída (preço do anúncio do Google, confira antes de planejar custo).
 - Debug difícil de vários arquivos: `gemini-4-hydrogen-xhigh`; se falhar, `gemini-4-neon-xhigh`.
 - Arquitetura de fronteira: `gemini-4-neon-xhigh`. O `gemini-4-carbon-*` só existe em plano Ultra e nem toda conta tem: use só se `agy models` listar.
-- Segunda opinião e revisão de verdade: `claude-sonnet-5-5-medium` ou `claude-opus-5-5-medium`.
+- Revisão de rotina: uma tarefa Hydrogen separada, só de leitura. Segunda opinião de outra família, quando quiser outro olhar: `claude-sonnet-5-5-medium` ou `claude-opus-5-5-medium`.
 - `gemini-pro-orchestrator-*` (`-neon` e `-g1-pro`) não aceita ajuste de effort.
 - O Argon continua listado no `agy models`. Uma matéria diz que o Neon o substitui, mas o Google não afirma isso. Use o Argon enquanto ele aparecer e funcionar.
 

@@ -101,9 +101,9 @@ git pull
 ## 5. Como o orquestrador escolhe conta, modelo e effort
 
 - **Conta:** respeita o escopo (empresa só em conta de empresa); usa só contas ativas e logadas; entre as elegíveis, a de maior cota livre, dividindo o trabalho entre elas. Semana abaixo de 10%: a conta fica fora. Janela de 5 horas abaixo de 20%: menos paralelismo. Se todas as do escopo esgotarem, para e avisa o dono.
-- **Modelo:** modelo é capacidade; effort é o quanto ele trabalha. Haiku para ler e buscar, Sonnet como padrão, Opus para problema ambíguo. No agy: flash para pesquisa em volume, neon (lançado em 18/11/2026) para código complexo e tarefas longas com ferramentas, argon para escrita e auditoria, hydrogen para scripts e testes, Claude para revisão. O `carbon` só existe em plano Ultra: use apenas se `agy models` listar. Veja o `skills/orquestrador/SKILL.md` para a tabela completa.
+- **Modelo:** modelo é capacidade; effort é o quanto ele trabalha. Haiku para ler e buscar, Sonnet como padrão, Opus para problema ambíguo. No agy o padrão é o hydrogen; os outros entram quando a tarefa pedir: flash para pesquisa em volume, neon (lançado em 18/11/2026) para código complexo e tarefas longas com ferramentas, argon para escrita e auditoria, hydrogen para scripts e testes, Claude para revisão. O `carbon` só existe em plano Ultra: use apenas se `agy models` listar. Veja o `skills/orquestrador/SKILL.md` para a tabela completa.
 - **Effort:** `medium` por padrão. Sobe um nível se pulou arquivo ou teste; sobe de modelo se errou com confiança tendo todo o contexto; desce quando o trabalho vira rotina. Nunca `max` como padrão.
-- **Atenção:** a regra do PC do trabalho de usar só `gemini-4-hydrogen-*` no agy pode conflitar com isso. O dono decide se vale só lá ou em todos.
+- **Padrão do agy:** `gemini-4-hydrogen-*` é o modelo padrão, no nível pelo peso da tarefa. Os demais modelos da tabela ficam liberados e entram quando a tarefa pedir ou o Hydrogen falhar na verificação.
 
 ---
 
