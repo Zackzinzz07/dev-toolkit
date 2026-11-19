@@ -18,14 +18,12 @@ Você vai deixar este ambiente do Claude com as MESMAS ferramentas, skills e reg
 A) Skills que o dono já tem em outros formatos. Corrija o que o dono disse:
 - **agy-agents** (antes chamada `agy-worker`) já está no repositório `dev-toolkit` (`skills/agy-agents`). Instale a partir dali, não de um arquivo `.skill`. Se encontrar `agy-worker` instalada, é a mesma skill com o nome antigo: troque.
 - **grill-me** vem do repositório público `mattpocock/skills` (MIT). Clone numa pasta nova, ache a pasta `grill-me` (caminho: confirmar), leia, e copie só ela mais o `LICENSE` para ~/.claude/skills/grill-me/.
-- **frontend-designer** vem de OUTRO repositório, de nome diferente. Pergunte ao dono qual é o repositório e só instale depois que ele responder. Ele relaciona o design front-end ao scroll-craft.
 
 B) Duas skills de repositórios públicos. Clone cada um numa pasta NOVA e vazia, leia o conteúdo antes de copiar e copie só a pasta da skill, mais o arquivo LICENSE:
 - scroll-craft: https://github.com/nateherkai/scroll-craft (MIT). A skill completa fica em plugins/nateherk-design/skills/scroll-craft/ (SKILL.md, engine, references, scripts, templates). Copie a pasta inteira para ~/.claude/skills/scroll-craft/. Usa Node e, para gerar mídia, uma chave kie.ai (opcional; peça a mim, nunca grave). Valide com `node ~/.claude/skills/scroll-craft/scripts/doctor.mjs`.
 - reverse-engineer-anything (REA): https://github.com/morluto/rea (MIT). Copie .agents/skills/reverse-engineer-anything/ para ~/.claude/skills/reverse-engineer-anything/. Sozinha ela só dá instruções; o servidor está na seção 2.
 
 C) Cópia para o agy (atenção: a versão de `agy-agents` neste repositório é só o `SKILL.md`, sem `scripts/agy_tool.py`. Se o script não existir, não invente: use o `install.sh agy` do repositório, que cria os links em ~/.gemini/config/skills, e me avise para eu confirmar se a versão com script é outra): depois de instalar, rode `python ~/.claude/skills/agy-agents/scripts/agy_tool.py sync-skill <nome> --scope global` para cada uma das 5 skills (use o comando Python da seção 0, item 6). Depois da cópia, ajuste só estas menções, na cópia do agy:
-- frontend-designer: troque "Skill tool" por "carregue a skill".
 - scroll-craft: remova a linha `allowed-tools`.
 - agy-agents, grill-me e reverse-engineer-anything: nenhuma troca definida ainda (confirmar). Leia cada uma, liste qualquer menção a ferramenta que só existe no Claude, mostre-me a lista e só altere o que eu aprovar.
 Valide o formato de cada skill (frontmatter com name e description) antes de dizer que terminou.
