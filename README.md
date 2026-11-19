@@ -23,7 +23,7 @@ Repositório privado (`git@github.com:Zackzinzz07/dev-toolkit.git`) com ferramen
   - Usa o `google-maps-scraper` para extrair dados públicos e montar landing pages.
   - `buscar-lojas.sh "Loja Cidade"`: busca dados públicos de uma loja no Google Maps.
   - `para-landing.py`: converte os dados encontrados nos campos da landing page (nome, endereço, CEP, telefone, site, mapa, horário, fotos).
-- **`agy-worker`:** skill para o Claude delegar código, testes e documentação ao Antigravity (`agy`), escolhendo o modelo e revisando o resultado. É a mesma skill que o prompt de instalação chama de `agy-agents`.
+- **`agy-agents`:** skill para o Claude delegar código, testes e documentação ao Antigravity (`agy`), escolhendo o modelo e revisando o resultado. 
 - **Contas (`bin/`):**
   - `bin/nova-conta`: adiciona contas isoladas do Claude Code ou do `agy`.
   - `bin/contas-status`: mostra o status de login e a cota de todas as contas registradas.
@@ -167,7 +167,7 @@ Para uma conta isolada, rode antes `export CLAUDE_CONFIG_DIR=~/.claude-NOME` (ou
 
 | Skill | Origem | Licença | Situação |
 |---|---|---|---|
-| `agy-agents` (do prompt) | é o `agy-worker`, que já está em `skills/agy-worker` deste repositório | própria | instalada pelo `./install.sh` |
+| `agy-agents` | já está em `skills/agy-agents` deste repositório | própria | instalada pelo `./install.sh` |
 | `grill-me` | repositório `mattpocock/skills` (clonar, ler e copiar a pasta `grill-me` e o `LICENSE`) | MIT | a instalar; pasta exata dentro do repositório: a confirmar |
 | `scroll-craft` | `nateherkai/scroll-craft`, plugin `nateherk-design`, pasta `plugins/nateherk-design/skills/scroll-craft/` | MIT | a instalar; usa Node e, para gerar mídia, uma chave kie.ai (opcional) |
 | `frontend-designer` | outro repositório, de nome diferente | a confirmar | **o dono precisa informar o repositório**; ele relaciona o design front-end ao `scroll-craft` |

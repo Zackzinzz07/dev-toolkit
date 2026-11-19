@@ -1,9 +1,9 @@
 ---
-name: agy-worker
+name: agy-agents
 description: Delegate coding, refactoring, test writing, documentation, boilerplate, code search and bulk file reading to the Google Antigravity CLI (`agy`) as a headless subagent. Use this skill whenever a task involves writing or changing code, reading many files, generating tests or docs, or investigating a bug — even if the user does not mention `agy` or Antigravity. Claude acts as orchestrator (plan, pick model, dispatch, review); `agy` does the heavy lifting.
 ---
 
-# agy-worker
+# agy-agents
 
 Claude is the orchestrator; `agy` (Google Antigravity CLI) is the executor. Delegating saves Claude's context and tokens, and lets independent jobs run in parallel. Claude's job is to plan, choose the model, dispatch, **review the result**, and fix only small details.
 
