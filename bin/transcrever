@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Transcrição local de áudio com Whisper (large-v3-turbo por padrão). Veja: transcrever --help
+# Requer o venv criado por: ./install.sh transcrever
+set -euo pipefail
+AQUI="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+VENV="${WHISPER_VENV:-/mnt/dados/venvs/whisper}"
+[ -x "$VENV/bin/python" ] || { echo "Venv do Whisper não encontrado em $VENV. Rode: $AQUI/install.sh transcrever" >&2; exit 1; }
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-/mnt/dados/cache}"
+exec "$VENV/bin/python" -I "$AQUI/ferramentas/transcrever/transcrever.py" "$@"
