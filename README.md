@@ -178,11 +178,14 @@ Regra: clonar numa pasta nova, ler o conteúdo antes de copiar e copiar só a pa
 
 Os agentes mexem no Flow usando o Chrome do dono, já logado, por um conector que só alcança `flow.google.com`, `labs.google`, o login do Google e arquivos de apoio do Google. Registrar no Linux:
 ```bash
-URLS=(--allowedUrlPattern 'https://flow.google.com/*' --allowedUrlPattern 'https://labs.google/*' --allowedUrlPattern 'https://accounts.google.com/*' --allowedUrlPattern 'https://*.gstatic.com/*' --allowedUrlPattern 'https://*.googleusercontent.com/*' --allowedUrlPattern 'https://*.googleapis.com/*' --allowedUrlPattern 'https://www.google.com/recaptcha/*' --allowedUrlPattern 'about:blank')
+URLS=(--allowedUrlPattern 'https://flow.google.com/*' --allowedUrlPattern 'https://labs.google/*' --allowedUrlPattern 'https://accounts.google.com/*' --allowedUrlPattern 'https://*.gstatic.com/*' --allowedUrlPattern 'https://*.googleusercontent.com/*' --allowedUrlPattern 'https://*.googleapis.com/*' --allowedUrlPattern 'https://www.google.com/recaptcha/*')
 claude mcp add --scope user flow-chrome -- npx -y chrome-devtools-mcp@1.11.0 --autoConnect --usageStatistics=false --redactNetworkHeaders=true "${URLS[@]}"
 agy mcp add flow-chrome npx -y chrome-devtools-mcp@1.11.0 --autoConnect --usageStatistics=false --redactNetworkHeaders=true "${URLS[@]}"
+# Chrome inteiro (sem trava de endereço), liberado em 2026-11-21 para claude-work e agy:
+claude mcp add --scope user chrome-live -- npx -y chrome-devtools-mcp@1.11.0 --autoConnect --usageStatistics=false --redactNetworkHeaders=true
+agy mcp add chrome-live npx -y chrome-devtools-mcp@1.11.0 --autoConnect --usageStatistics=false --redactNetworkHeaders=true
 ```
-No Windows: a forma com `cmd /c` e `MSYS_NO_PATHCONV=1` é **a confirmar**. O dono precisa abrir o Chrome, ativar a depuração remota em `chrome://inspect/#remote-debugging` e aceitar o aviso de permissão a cada conexão. **Ainda não foi testado** se o bloqueio de endereços vale para abas já abertas. Cada segundo de vídeo custa cerca de 3 créditos, e a skill `google-flow` manda perguntar antes de passar de 150 créditos.
+No Windows: a forma com `cmd /c` e `MSYS_NO_PATHCONV=1` é **a confirmar**. O dono precisa abrir o Chrome, ativar a depuração remota em `chrome://inspect/#remote-debugging` e aceitar o aviso de permissão a cada conexão. Não usar `about:blank` na lista: o chrome-devtools-mcp 1.11.0 rejeita ("Failed to construct URLPattern") e o servidor não sobe. **Ainda não foi testado** se o bloqueio de endereços vale para abas já abertas. Cada segundo de vídeo custa cerca de 3 créditos, e a skill `google-flow` manda perguntar antes de passar de 150 créditos.
 
 ## 11. Ferramentas externas avaliadas (não vêm instaladas)
 
